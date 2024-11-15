@@ -15,7 +15,8 @@
         "title": "IDE",
         "width": 1000,
         "height": 800,
-        "maximized": true
+        "maximized": true,
+        "decorations": false
       }
     ],
     "security": {

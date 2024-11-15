@@ -13,20 +13,8 @@ import PlaySVG from "../assets/play.svg"
 import DropdownSVG from "../assets/dropdown.svg"
 
 
-const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, onClear, editorRef, code, clipBoard }) => {
-    const [HasText, setHasText] = useState(true)
-    // console.log(code)
-    // const handleEditorChange = () => {
-    //     if (editorRef.current) {
-    //         const value = editorRef.current.getValue();
-    //         setHasText(!value.trim()); // Set true if editor content is empty
-    //     }
-    // };
+const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, code, clipBoard, isTextSelected, isUndoActive, isRedoActive }) => {
 
-    // useEffect(() => {
-    //     // Assuming you want to check content on editor initialization
-    //     handleEditorChange();
-    // }, []);
     return (
         <Box
             position="fixed" // Fixes the box to the viewport
@@ -54,23 +42,20 @@ const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, onClear, edit
                 {/* <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Cursor">
                     <BsCursor size="2rem" style={{ transform: 'rotate(270deg)' }} />
                 </IconButton> */}
-                <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Cut" onClick={onCut} isDisabled={code ? false : true}>
+                <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Cut" onClick={onCut} isDisabled={!isTextSelected}>
                     <img src={CutSVG} height="1rem" width="35rem" />
                 </IconButton>
-                <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Copy" onClick={onCopy} isDisabled={code ? false : true}>
+                <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Copy" onClick={onCopy} isDisabled={!isTextSelected}>
                     <img src={CopySVG} height="1rem" width="35rem" />
                 </IconButton>
                 <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Paste" onClick={onPaste} isDisabled={!clipBoard}>
                     <img src={PasteSVG} height="1rem" width="27rem" />
                 </IconButton>
-                {/* <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Clear" onClick={onClear}>
-                    <img src={ClearSVG} height="1rem" width="35rem" />
-                </IconButton> */}
                 <ButtonGroup isAttached>
-                    <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Undo" onClick={onUndo} isDisabled={code ? false : true}>
+                    <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Undo" onClick={onUndo} isDisabled={!isUndoActive}>
                         <img src={UndoSVG} height="1rem" width="35rem" />
                     </IconButton>
-                    <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Redo" onClick={onRedo} isDisabled={code ? false : true}>
+                    <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Redo" onClick={onRedo} isDisabled={!isRedoActive}>
                         <img src={RedoSVG} height="1rem" width="26rem" />
                     </IconButton>
                 </ButtonGroup>

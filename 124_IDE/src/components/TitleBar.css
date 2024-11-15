@@ -1,0 +1,17 @@
+.title-bar {
+    position: fixed;
+    width: 100vw;
+    height: 40px;
+    background: #051119;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title {
+        padding-left: 20px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}

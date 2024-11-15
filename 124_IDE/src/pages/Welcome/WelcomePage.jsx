@@ -1,15 +1,17 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import { Box, Text, Button } from "@chakra-ui/react"
-import logo from "../assets/logo.png"
+import logo from "../../assets/logo.png"
 
-const WelcomePage = ({ togglePage }) => {
+const WelcomePage = ({ Path, setPath, Code, setCode, originalCode, setOriginalCode, IsModified, setIsModified, handleNewFile, handleOpenFile }) => {
+
     return (
         <Box
-            minH="97vh"
+            minH="93.65vh"
             borderRadius={20}
             bg="#071821"
-            px={20}
-            py={20}
+            px={16}
+            py={16}
             position="relative"
             overflow="hidden"
         >
@@ -44,15 +46,18 @@ const WelcomePage = ({ togglePage }) => {
                 </Text>
             </Text>
             <Text fontSize='2.5rem' color="#304D5C" fontWeight="semibold">Your efficient coding companion.</Text>
-            <Text fontSize='2rem' color="#304D5C" paddingTop={100}>Quick start:</Text>
-            <Button
-                onClick={togglePage}
+            <Text fontSize='2rem' color="#304D5C" paddingTop={100} marginBottom={2}>Quick start:</Text>
+            {/* <Button
+                onClick={handleGetStarted}
                 mt={5} // Add margin to the button
                 colorScheme="teal" // Use Chakra UI color scheme
                 size="lg" // Adjust button size
             >
-                Open a new file
-            </Button>
+                Get Started!
+            </Button> */}
+            <Text fontSize='1.5rem' color="#509D94" marginLeft={5} onClick={handleNewFile} style={{ cursor: 'pointer' }}>   Open New File...</Text>
+            <Text fontSize='1.5rem' color="#509D94" marginLeft={5} marginTop={2} onClick={handleOpenFile} style={{ cursor: 'pointer' }}>   Open Existing File...</Text>
+
             <Text fontSize='2rem' color="#304D5C" paddingTop={250}>Creators:</Text>
             <Text fontSize='1.3rem' color="#509D94" paddingTop={3} paddingLeft={3}>Fiel Jr. Condor</Text>
             <Text fontSize='1.3rem' color="#509D94" paddingTop={3} paddingLeft={3}>Liora Zhaune Cabanos</Text>
