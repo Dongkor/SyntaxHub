@@ -28,7 +28,7 @@ export const TitleBar = () => {
     };
 
     return (
-        <div className='title-bar'>
+        <div data-tauri-drag-region className='title-bar'>
             {/* Logo and Title - Navigates to Home */}
             <Link to="/">
                 <div className='title'>
