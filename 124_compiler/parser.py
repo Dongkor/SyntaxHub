@@ -7,7 +7,10 @@ class Parser:
         self.current_token = self.tokens[self.idx]
 
     def parse(self):
-        return self.statement()
+        nodes = []  # Store all parsed statements
+        while self.current_token.type != "EOF":  # Continue until the end of file token
+            nodes.append(self.statement())  # Parse a statement
+        return nodes  # Return a list of AST nodes
     
     def match(self, *token_types):
         # If the current token matches one of the specified token types, consume it
@@ -20,7 +23,7 @@ class Parser:
     def consume(self, token_type, error_message):
         # Consume a token of the specified type, or raise an error if it's not found
         if self.current_token.type == token_type:
-            print(self.current_token.type + ": " + self.current_token.value)
+            # print(self.current_token.type + ": " + self.current_token.value)
             token = self.current_token
             self.advance()
             return token
@@ -34,12 +37,20 @@ class Parser:
 
     def statement(self):
         if self.current_token.type == "LET":
-            return self.variable_declaration()
+            node =  self.variable_declaration()
         elif self.current_token.type == "FLEX":
             print("printing")
         else:
             raise SyntaxError(f"Unexpected token: {self.current_token.value}")
         
+
+        if self.current_token.type == "SEMICOLON":
+            self.advance()  # Consume the semicolon
+        else:
+            raise SyntaxError("Missing semicolon at the end of the statement")
+
+        return node
+    
     def variable_declaration(self):
         # Handle a 'LET' statement: 'LET x = 5 + 5'
         self.consume("LET", "Expected 'LET' keyword.")
