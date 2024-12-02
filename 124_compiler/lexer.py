@@ -1,10 +1,11 @@
 import re
 
 TokenType = {
-    "LET": re.compile(r"\bLET\b"),
+    "INT": re.compile(r"\bINT\b"),
+    "STR": re.compile(r"\bSTR\b"),
     # "COOK": re.compile(r"\bCOOK\b"),
-    "FLEX": re.compile(r"\bFLEX\b"),
-    # "SPILL": re.compile(r"\bSPILL\b"),
+    "PRINT": re.compile(r"\bFLEX\b"),
+    "INPUT": re.compile(r"\bSPILL\b"),
     # "SAYING": re.compile(r"\bSAYING\b"),
     # "BET": re.compile(r"\bBET\b"),
     # "THEN": re.compile(r"\bTHEN\b"),
@@ -70,7 +71,6 @@ class Lexer:
             for token_type, regex in TokenType.items():
                 match = regex.match(self.code, index)
                 if match:
-                    # print(match)
                     value = match.group(0)
                     self.tokens.append(Token(token_type, value, self.line, self.idx))
                     index += len(value)
@@ -85,3 +85,5 @@ class Lexer:
         # Append EOF token
         self.tokens.append(Token("EOF", "", self.line, self.idx))
         return self.tokens
+
+# code -> lexer(scanner) -> list of tokens -> parser -> AST -> code generator (MIPS) -> run in MARS

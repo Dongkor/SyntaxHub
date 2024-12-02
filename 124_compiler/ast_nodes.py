@@ -39,14 +39,16 @@ class BinaryOpNode(ASTNode):
         }
 
 class VariableNode(ASTNode):
-    def __init__(self, name):
+    def __init__(self, identifier, datatype):
         super().__init__("Variable")
-        self.name = name
+        self.identifier = identifier
+        self.datatype = datatype
 
     def to_dict(self):
         return {
             "type": "Variable",
-            "name": self.name
+            "name": self.identifier,
+            "var_type": self.datatype
         }
 
 class NumberNode(ASTNode):
@@ -58,4 +60,39 @@ class NumberNode(ASTNode):
         return {
             "type": "Number",
             "value": self.value
+        }
+    
+class StringNode(ASTNode):
+    def __init__(self, value):
+        super().__init__("String")
+        self.value = value
+
+    def to_dict(self):
+        return {
+            "type": "String",
+            "value": self.value
+        }
+    
+class InputNode(ASTNode):
+    def __init__(self, name, datatype):
+        super().__init__("Input")
+        self.name = name
+        self.datatype = datatype 
+    
+    def to_dict(self):
+        return {
+            "type": "Input",
+            "name" : self.name,
+            "datatype" : self.datatype
+        }
+
+class PrintNode(ASTNode):
+    def __init__(self, value):
+        super().__init__("Print")
+        self.value = value
+
+    def to_dict(self):
+        return {
+            "type": "Print",
+            "value": self.value.to_dict()
         }
