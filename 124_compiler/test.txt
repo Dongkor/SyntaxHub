@@ -1,3 +1,9 @@
-SPILL x SAYING "Input first number:"
-SPILL y SAYING "Input second number:"
-FLEX ("Sum of x and y is: ", x + y)
+INT x;
+INT y;
+FLEX "Enter first num:";
+SPILL x;
+FLEX "Enter second num:";
+SPILL y;
+INT res = x + y;
+FLEX "The sum is:";
+FLEX res;

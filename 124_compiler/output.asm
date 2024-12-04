@@ -1,12 +1,17 @@
+
 .data
-x_mem: .word 0
-y_mem: .word 0
+newline: .asciiz "\n"
+str_label0: .asciiz "Hello world!"
+
 .text
-li $t0, 1
-li $t1, 2
-add $t2, $t0, $t1
-sw $t2, x_mem
-li $t3, 2
-li $t4, 2
-add $t5, $t3, $t4
-sw $t5, y_mem
+la $t0, str_label0
+li $v0, 4  # Print string syscall
+move $a0, $t0
+syscall
+la $a0, newline
+li $v0, 4  # Print newline syscall
+syscall
+
+# Exit program
+li $v0, 10
+syscall

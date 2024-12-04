@@ -1,8 +1,8 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect, Component } from 'react'
 import './testIDE.css'
 import Sidebar from './components/sidebar-components/Sidebar'
+import { invoke } from '@tauri-apps/api/core';
 import { Box, Text, useToast } from '@chakra-ui/react'
-
 import TextEditor from './components/TextEditor'
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs'
 import { open, save } from '@tauri-apps/plugin-dialog'
@@ -11,6 +11,27 @@ import { basename } from '@tauri-apps/api/path';
 const TestIDE = ({ Path, setPath, Code, setCode, originalCode, setOriginalCode, IsModified, setIsModified, handleNewFile, handleOpenFile }) => {
     const [sideBar, setSideBar] = useState("small")
     const toast = useToast()
+
+    const run_compiler = async (event) => {
+        event.preventDefault();
+        try {
+            console.log(Path)
+            const response = await invoke('run_python_compiler', { filePath: Path });
+            console.log(response);  // Logs: "Python script ran successfully!"
+        } catch (error) {
+            console.error('Error running Python script:', error);
+        }
+    };
+    const compile_only = async (event) => {
+        event.preventDefault();
+        try {
+            console.log(Path)
+            const response = await invoke('compile_only', { filePath: Path });
+            console.log(response);  // Logs: "Python script ran successfully!"
+        } catch (error) {
+            console.error('Error running Python script:', error);
+        }
+    };
 
     const handleSaveFile = async () => {
         if (!Path) {
@@ -96,16 +117,18 @@ const TestIDE = ({ Path, setPath, Code, setCode, originalCode, setOriginalCode, 
                     <div className='code-editor-content'>
                         <Text color="#86A0A0" px={3} height="5%" className='code-editor-header'>Code Editor</Text>
                         <Box bg="#071821" className='editor-box' w="100%" height="95%" borderRadius={12} >
-                            <TextEditor code={Code} setCode={setCode} />
+                            <TextEditor code={Code} setCode={setCode} onRun={run_compiler} isModified={IsModified} onCompile={compile_only} />
                         </Box>
                     </div>
                 </div>
                 <div
-                    className='terminal'
+                    className='terminal-container'
                     style={{ width: sideBar === "small" ? "48.5%" : "40%" }}
                 >
                     <Text color="#86A0A0" px={3} height="5%" className='terminal-header'>Terminal</Text>
-                    <Box bg="#071821" className='terminal-box' w="100%" height="95%" borderRadius={12} />
+                    <Box bg="#071821" className='terminal-box' w="100%" height="95%" borderRadius={12} >
+                        {/* <Terminal Path={Path} /> */}
+                    </Box>
                 </div>
 
             </div >

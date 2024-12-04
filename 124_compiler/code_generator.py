@@ -113,7 +113,7 @@ class CodeGenerator:
         elif node.operator == "*":
             self.instructions.append(f"mul {result_reg}, {left_reg}, {right_reg}")
         elif node.operator == "/":
-            self.instructions.append(f"div {result_reg}, {left_reg}\nmflo {result_reg}")  # Division result in $lo
+            self.instructions.append(f"div {left_reg}, {right_reg}\nmflo {result_reg}")  # Division result in $lo
         else:
             raise ValueError(f"Unsupported operator: {node.operator}")
 
@@ -147,7 +147,7 @@ class CodeGenerator:
         self.instructions.append(f"sw $v0, {memory_location}  # Store the input value in memory")
 
     def visit_print(self, node):
-        print("visit_print:", node, self.symbol_table)
+        # print("visit_print:", node, self.symbol_table)
         value_reg = None
         if isinstance(node.value, NumberNode):
             value_reg = self._generate_node(node.value)  # Generate code for the value to print
@@ -159,7 +159,7 @@ class CodeGenerator:
         if isinstance(node.value, VariableNode):
             # Handle variables (assumes memory is already allocated)
             variable = node.value
-            print("var", variable.identifier)
+            # print("var", variable.identifier)
             if variable.identifier in self.symbol_table:
                 if self.symbol_table[variable.identifier].endswith(".asciiz"):
                     # Print string

@@ -95,7 +95,7 @@ class Parser:
             self.advance()
         elif self.current_token.type == "IDENTIFIER":
             variable_name = self.current_token.value
-            print(self.symbol_table)
+            # print(self.symbol_table)
             if variable_name not in self.symbol_table:
                 raise ValueError(f"Variable '{variable_name}' is not declared.")
             

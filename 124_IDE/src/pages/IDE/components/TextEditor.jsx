@@ -9,7 +9,7 @@ const editorOptions = {
     wordWrap: 'on'
 };
 
-const TextEditor = ({ code, setCode }) => {
+const TextEditor = ({ code, setCode, onRun, onCompile, isModified }) => {
     const monaco = useMonaco();
     const editorRef = useRef(null);
     const [clipBoard, setClipBoard] = useState(false);
@@ -184,6 +184,9 @@ const TextEditor = ({ code, setCode }) => {
                 isTextSelected={isTextSelected}
                 isUndoActive={canUndo}
                 isRedoActive={canRedo}
+                onRun={onRun}
+                onCompile={onCompile}
+                isModified={isModified}
             />
         </div>
     );

@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react'
-import { Box, Text, IconButton, HStack, ButtonGroup } from '@chakra-ui/react';
-// import { MdOutlineContentCut } from "react-icons/md";
+import { Box, Text, IconButton, HStack, ButtonGroup, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
+import { invoke } from '@tauri-apps/api/core';
 import { BsCursor } from "react-icons/bs";
 import CutSVG from "../assets/cut.svg";
 import CopySVG from "../assets/copy.svg"
@@ -13,8 +13,8 @@ import PlaySVG from "../assets/play.svg"
 import DropdownSVG from "../assets/dropdown.svg"
 
 
-const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, code, clipBoard, isTextSelected, isUndoActive, isRedoActive }) => {
 
+const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, code, clipBoard, isTextSelected, isUndoActive, isRedoActive, onRun, onCompile, isModified }) => {
     return (
         <Box
             position="fixed" // Fixes the box to the viewport
@@ -64,12 +64,27 @@ const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, code, clipBoa
 
                 </IconButton>
                 <ButtonGroup isAttached>
-                    <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Run" isDisabled={false}>
+                    <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Run" onClick={onRun} isDisabled={isModified || !code}>
                         <img src={PlaySVG} height="1rem" width="35rem" />
                     </IconButton>
-                    <IconButton size="lg" borderWidth="1px" flexShrink={1} borderColor="#BABABA" title="More" minWidth="2rem" isDisabled={false} >
-                        <img src={DropdownSVG} height="1rem" width="20rem" />
-                    </IconButton>
+                    <Menu>
+                        <MenuButton
+                            as={IconButton}
+                            size="lg"
+                            borderWidth="1px"
+                            flexShrink={1}
+                            borderColor="#BABABA"
+                            title="More"
+                            paddingLeft={'5px'}
+                            minWidth="2rem"
+                            isDisabled={isModified || !code}
+                        >
+                            <img src={DropdownSVG} height="1rem" width="20rem" />
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem onClick={onCompile}>Compile only</MenuItem>
+                        </MenuList>
+                    </Menu>
                 </ButtonGroup>
             </HStack>
             {/*  */}

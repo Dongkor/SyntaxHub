@@ -6,8 +6,10 @@ import './TitleBar.css';
 import logo from "../assets/logo.png";
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { Link } from 'react-router-dom';
+import { confirm } from '@tauri-apps/plugin-dialog';
+import closeSVG from '../pages/IDE/assets/x.svg'
 
-export const TitleBar = () => {
+export const TitleBar = ({ isModified }) => {
     const appWindow = getCurrentWindow();
 
     const handleMinimize = async () => {
@@ -24,6 +26,24 @@ export const TitleBar = () => {
     };
 
     const handleClose = async () => {
+        if (isModified) {
+            // If there are unsaved changes, show a confirmation dialog
+            const userConfirmed = await confirm(
+                "You have unsaved changes. Are you sure you want to close?",
+                {
+                    title: "Unsaved Changes Detected", // Customize the title
+                    type: "warning",                 // Set the dialog type (e.g., "info", "warning", "error")
+                    okLabel: "Okay"         // Customize the "OK" button label
+                }
+            );
+
+            if (!userConfirmed) {
+                // If the user cancels, do nothing
+                return;
+            }
+        }
+
+        // Close the window if no unsaved changes or user confirms
         await appWindow.close();
     };
 
@@ -39,6 +59,8 @@ export const TitleBar = () => {
             {/* Window Control Buttons */}
             <div className='buttons'>
                 <IconButton
+                    paddingX={5}
+                    borderRadius={0}
                     aria-label="Minimize"
                     variant="ghost"
                     onClick={handleMinimize}>
@@ -46,6 +68,8 @@ export const TitleBar = () => {
                 </IconButton>
 
                 <IconButton
+                    paddingX={5}
+                    borderRadius={0}
                     aria-label="Maximize/Restore"
                     variant="ghost"
                     onClick={handleMaximizeRestore}>
@@ -53,10 +77,18 @@ export const TitleBar = () => {
                 </IconButton>
 
                 <IconButton
+                    paddingX={5}
+                    borderRadius={0}
                     aria-label="Close"
                     variant="ghost"
-                    onClick={handleClose}>
-                    <BsXLg />
+                    onClick={handleClose}
+                    sx={{
+                        _hover: {
+                            bg: "red.500", // Set the background to red when hovered
+                        },
+                    }}>
+
+                    <img src={closeSVG} alt="" height="1rem" width="20rem" />
                 </IconButton>
             </div>
         </div>

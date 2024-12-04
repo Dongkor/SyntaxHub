@@ -88,7 +88,7 @@ function App() {
   }, [Code]);
   return (
     <>
-      <TitleBar />
+      <TitleBar isModified={IsModified} />
       {/* <CodeProvider> */}
       <Box
         minH="85vh"

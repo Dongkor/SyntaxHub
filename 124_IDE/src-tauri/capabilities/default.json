@@ -19,6 +19,18 @@
     "core:path:allow-basename",
     "clipboard-manager:default",
     "clipboard-manager:allow-read-text",
-    "clipboard-manager:allow-write-text"
+    "clipboard-manager:allow-write-text",
+    "shell:allow-execute",
+    "shell:allow-spawn",
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "open-git-bash",
+          "cmd": "C:\\Program Files\\Git\\git-bash.exe",
+          "args": []
+        }
+      ]
+    }
   ]
 }
