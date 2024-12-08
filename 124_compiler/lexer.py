@@ -7,23 +7,25 @@ TokenType = {
     "PRINT": re.compile(r"\bFLEX\b"),
     "INPUT": re.compile(r"\bSPILL\b"),
     # "SAYING": re.compile(r"\bSAYING\b"),
-    # "BET": re.compile(r"\bBET\b"),
-    # "THEN": re.compile(r"\bTHEN\b"),
-    # "OTHER": re.compile(r"\bOTHER\b"),
+    "IF": re.compile(r"\bBET\b"),
+    "THEN": re.compile(r"\bTHEN\b"),
+    "ELIF": re.compile(r"\bOTHER_BET\b"),
+    "ELSE": re.compile(r"\bOTHER\b"),
     # "KEEP_IT": re.compile(r"\bKEEP IT\b"),
     # "TIL": re.compile(r"\bTIL\b"),
-    "EQUAL": re.compile(r"="),
+    
     # "BINARY_OP": re.compile(r"[+\-*/]"),
     "PLUS": re.compile(r"\+"),
     "MINUS": re.compile(r"-"),
     "MULTIPLY": re.compile(r"\*"),
     "DIVIDE": re.compile(r"/"),
-    # "IS_EQUAL": re.compile(r"=="),
-    # "NOT_EQUAL": re.compile(r"!="),
-    # "LESS_THAN": re.compile(r"<"),
-    # "GREATER_THAN": re.compile(r">"),
-    # "LESS_EQUAL": re.compile(r"<="),
-    # "GREATER_EQUAL": re.compile(r">="),
+    "IS_EQUAL": re.compile(r"=="),
+    "NOT_EQUAL": re.compile(r"!="),
+    "LESS_THAN": re.compile(r"<"),
+    "GREATER_THAN": re.compile(r">"),
+    "LESS_EQUAL": re.compile(r"<="),
+    "GREATER_EQUAL": re.compile(r">="),
+    "EQUAL": re.compile(r"="),
     # "AND": re.compile(r"\bN\b"),
     # "OR": re.compile(r"\b’R\b"),
     "NUMBER": re.compile(r"\b\d+(\.\d+)?\b"),
@@ -34,6 +36,8 @@ TokenType = {
     "COMMA": re.compile(r","),
     "SEMICOLON": re.compile(r";"),
 }
+
+
 
 class Token:
     def __init__(self, type, value, line, index):

@@ -96,3 +96,39 @@ class PrintNode(ASTNode):
             "type": "Print",
             "value": self.value.to_dict()
         }
+    
+class ConditionalNode(ASTNode):
+    def __init__(self, condition, true_branch=None, elif_branches=None, else_branch=None):
+        super().__init__("Conditional")
+        self.condition = condition  # Main condition (ConditionNode)
+        self.true_branch = true_branch  # Code to execute if the condition is true
+        self.elif_branches = elif_branches if elif_branches is not None else []   # List of (ConditionNode, statement) for 'OTHER_BET'
+        self.else_branch = else_branch  # Code to execute if no condition is matched
+
+    def to_dict(self):
+        # Build the dictionary for the ConditionalNode
+        return {
+            "type": "Conditional",
+            "condition": self.condition.to_dict(),  # Fix typo here, should be "condition"
+            "true_branch": self.true_branch.to_dict() if self.true_branch else None,  # Ensure we call to_dict on nodes
+            "elif_branches": [
+                (elif_cond.to_dict(), elif_stmt.to_dict()) for elif_cond, elif_stmt in self.elif_branches
+            ] if self.elif_branches else [],  # If there are elif branches, convert them, else an empty list
+            "else_branch": self.else_branch.to_dict() if self.else_branch else None  # Convert else branch if it exists
+        }
+    
+
+class ConditionNode(ASTNode):
+    def __init__(self, operator, left, right):
+        super().__init__("Condition")
+        self.operator = operator
+        self.left = left
+        self.right = right
+
+    def to_dict(self):
+        return {
+            "type": "Condition",
+            "operator": self.operator,
+            "left": self.left.to_dict(),
+            "right": self.right.to_dict()
+        }

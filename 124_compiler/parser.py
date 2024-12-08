@@ -1,4 +1,5 @@
 from ast_nodes import *
+from lexer import *
 
 class Parser:
     def __init__(self, tokens):
@@ -6,6 +7,7 @@ class Parser:
         self.idx = 0  # Tracks the current position in the token list
         self.current_token = self.tokens[self.idx]
         self.symbol_table = {}  # Tracks declared variables and their types
+        self.conditional = False
 
     def parse(self):
         nodes = []  # Store all parsed statements
@@ -43,18 +45,26 @@ class Parser:
             node = self.printing_statement()
         elif self.current_token.type == "INPUT":
             node = self.input_statement()
+        elif self.current_token.type == "IF":
+            node = self.conditional_statement()
+            self.conditional = True
+        elif self.current_token.type == "IDENTIFIER" and self.current_token.value in self.symbol_table:
+            # print(self.symbol_table, self.current_token.value)
+            node = self.assignment_statement()
         else:
             raise SyntaxError(f"Unexpected token: {self.current_token.value}")
         
 
-        if self.current_token.type == "SEMICOLON":
-            self.advance()  # Consume the semicolon
+        if self.current_token.type == "SEMICOLON" or self.conditional:
+            if self.current_token.type == "SEMICOLON":
+                self.advance()  # Consume the semicolon
         else:
             raise SyntaxError(f"Missing semicolon at the end of the statement at line {self.current_token.line} index {self.current_token.index}")
 
         return node
         
     def variable_declaration(self):
+        reserved_words = {"INT", "STR", "FLEX", "SPILL", "BET", "THEN", "OTHER_BET", "OTHER"}
         # Handle type (INT or STR)
         if self.current_token.type == "INT":
             var_type = "INT"
@@ -67,6 +77,9 @@ class Parser:
 
         # Handle variable name
         identifier = self.consume("IDENTIFIER", "Expected variable name").value
+
+        if identifier in reserved_words:
+            raise SyntaxError(f"'{identifier}' is a reserved word and cannot be used as a variable name.")
 
         # Check for initialization
         if self.current_token.type == "EQUAL":
@@ -125,7 +138,81 @@ class Parser:
         # print(variable['type'], variable_name)
         # Return InputNode, linking to the variable
         return InputNode(variable_name, variable['type'])
-    
+    def assignment_statement(self):
+        identifier = self.consume("IDENTIFIER", "Expected variable name").value
+        if self.current_token.type == "EQUAL":
+            self.advance()  # Consume '='
+
+        if self.current_token.type == "STRING":
+            expr_node = StringNode(self.current_token.value)
+            self.advance()
+        else:
+            expr_node = self.expression()
+        
+        return AssignmentNode(identifier, expr_node)
+    def conditional_statement(self):
+        self.consume("IF", "Expected 'BET' keyword.")
+
+        left = self.expression()
+
+        if self.current_token.type not in ("IS_EQUAL", "NOT_EQUAL", "LESS_THAN", "GREATER_THAN", "LESS_EQUAL", "GREATER_EQUAL"):
+            raise SyntaxError("Expected a comparison operator (==, !=, <, >, <=, >=)")
+
+        # Parse the comparison operator
+        op = self.current_token
+        self.advance()  # Consume the operator
+        right = self.expression()
+
+        # Create the condition node
+        condition = ConditionNode(op.value, left, right)
+
+        # Ensure 'THEN' keyword follows
+        self.consume("THEN", "Expected 'THEN' keyword after condition")
+        
+        # Parse the statement for the true branch (code to execute if condition is true)
+        true_branch = self.statement()
+
+         # Parse optional 'OTHER_BET' (elif) branches
+        elif_branches = []
+        while self.current_token.type == "ELIF":
+            self.consume("ELIF", "Expected 'OTHER_BET' keyword.")
+            
+            # Parse left operand for elif condition
+            elif_left = self.expression()
+            
+            # Ensure there is a valid comparison operator for elif
+            if self.current_token.type not in ("IS_EQUAL", "NOT_EQUAL", "LESS_THAN", "GREATER_THAN", "LESS_EQUAL", "GREATER_EQUAL"):
+                raise SyntaxError("Expected a comparison operator in 'OTHER_BET' (elif)")
+            
+            # Parse operator for elif condition
+            elif_op = self.current_token
+            self.advance()  # Consume the operator
+            
+            # Parse right operand for elif condition
+            elif_right = self.expression()
+            
+            # Create elif condition node
+            elif_condition = ConditionNode(elif_op.value, elif_left, elif_right)
+            
+            # Ensure 'THEN' follows for elif
+            self.consume("THEN", "Expected 'THEN' keyword after 'OTHER_BET' condition")
+            
+            # Parse the statement for the elif branch
+            elif_branch = self.statement()
+            
+            # Append the elif condition and branch
+            elif_branches.append((elif_condition, elif_branch))
+        
+        # Parse optional 'OTHER' (else) block
+        else_branch = None
+        if self.current_token.type == "ELSE":
+            self.consume("ELSE", "Expected 'OTHER' keyword.")
+            # print("else before", self.current_token)
+            else_branch = self.statement()
+            # print("else", else_branch, self.current_token)
+
+        return ConditionalNode(condition, true_branch, elif_branches, else_branch)
+
     def expression(self):
         # Parse lower precedence operators first (e.g., +, -)
         node = self.term()

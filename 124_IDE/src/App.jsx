@@ -5,7 +5,6 @@ import { invoke } from "@tauri-apps/api/core";  // Tauri API integration (if nee
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import WelcomePage from "./pages/Welcome/WelcomePage";
 import TestIDE from "./pages/IDE/testIDE";  // Ensure this component exists
-import { CodeProvider } from "./Providers/CodeProvider.jsx";
 import { TitleBar } from "./components/TitleBar.jsx";  // Ensure TitleBar is working
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs'
 import { open, save } from '@tauri-apps/plugin-dialog'

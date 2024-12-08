@@ -36,7 +36,6 @@ class compiler:
         tokens = lexer.tokenize()
         # for token in tokens:
         #     print(token)
-        # parser
         parser = Parser(tokens)
         ast = parser.parse()
         # print("\nAST:")

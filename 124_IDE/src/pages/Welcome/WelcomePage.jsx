@@ -45,7 +45,7 @@ const WelcomePage = ({ Path, setPath, Code, setCode, originalCode, setOriginalCo
                     !
                 </Text>
             </Text>
-            <Text fontSize='2.5rem' color="#304D5C" fontWeight="semibold">Your efficient coding companion.</Text>
+            <Text fontSize='2.5rem' color="#304D5C" fontWeight="semibold">Your coding companion.</Text>
             <Text fontSize='2rem' color="#304D5C" paddingTop={100} marginBottom={2}>Quick start:</Text>
             {/* <Button
                 onClick={handleGetStarted}
