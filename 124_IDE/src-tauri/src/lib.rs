@@ -1,26 +1,14 @@
 use std::process::Command;
 
-// #[tauri::command]
-// fn greet(name: &str) -> String {
-//     format!("Hello, {}! You've been greeted from Rust!", name)
-// }
-
 #[tauri::command]
 fn run_python_compiler(mut file_path: String) {
-    // Replace this with the path to your Python script
-    let git_bash_path = "C:/Program Files/Git/git-bash.exe";
+    let git_bash_path = "C:/path/to/git-bash.exe"; // Replace this with the path to your git-bash executable file
 
-    // let python_command = format!(
-    //     "python C:/Users/Dongkor/Desktop/junior/124/IDE/124_compiler/main.py {}",
-    //     file_path
-    // );
-
-    // let test = format!("echo 'hello world'");
     file_path = file_path.replace("\\", "/");
-    // Run the Python script using `python` or `python3`
-    // println!(python_command);
+
     let command = format!(
-        "python C:/Users/Dongkor/Desktop/junior/124/IDE/124_compiler/main.py {}; exec bash",
+        //Replace this with the path to the compiler script file from IDE folder
+        "python C:/path/to/project-directory/compiler/main.py {}; exec bash",
         file_path
     );
 
@@ -36,20 +24,12 @@ fn run_python_compiler(mut file_path: String) {
 
 #[tauri::command]
 fn compile_only(mut file_path: String) {
-    // Replace this with the path to your Python script
-    let git_bash_path = "C:/Program Files/Git/git-bash.exe";
+    let git_bash_path = "C:/path/to/git-bash.exe"; // Replace this with the path to your git-bash executable file
 
-    // let python_command = format!(
-    //     "python C:/Users/Dongkor/Desktop/junior/124/IDE/124_compiler/main.py {}",
-    //     file_path
-    // );
-
-    // let test = format!("echo 'hello world'");
     file_path = file_path.replace("\\", "/");
-    // Run the Python script using `python` or `python3`
-    // println!(python_command);
     let command = format!(
-        "python C:/Users/Dongkor/Desktop/junior/124/IDE/124_compiler/main.py {} {}; exec bash",
+        //Replace this with the path to the compiler script file from IDE folder
+        "python C:/path/to/project-directory/compiler/main.py {} {}; exec bash",
         file_path, "yes"
     );
 
@@ -66,7 +46,7 @@ fn compile_only(mut file_path: String) {
 #[tauri::command]
 fn open_git_bash() -> Result<String, String> {
     println!("Hey");
-    Command::new("C:/Program Files/Git/git-bash.exe")
+    Command::new("C:/path/to/git-bash.exe")
         .spawn()
         .map_err(|e| format!("Failed to open Git Bash: {}", e))?;
     Ok("Git Bash launched successfully!".to_string())

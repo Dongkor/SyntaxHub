@@ -34,6 +34,7 @@ function App() {
     });
     navigate('/ide');
   }
+
   //opening a file
   const handleOpenFile = async () => {
     try {
@@ -79,9 +80,6 @@ function App() {
     const normalizedCode = Code.trim();
     const normalizedOriginalCode = originalCode.trim();
     const modified = normalizedCode !== normalizedOriginalCode;
-    console.log("Updated Code:", Code);
-    console.log("Updated OG Code:", originalCode);
-    console.log("IsModified:", modified);
     setIsModified(modified);
 
   }, [Code]);
@@ -104,7 +102,6 @@ function App() {
           <Route path="/ide" element={<TestIDE Path={Path} setPath={setPath} Code={Code} setCode={setCode} originalCode={originalCode} setOriginalCode={setOriginalCode} IsModified={IsModified} setIsModified={setIsModified} handleNewFile={handleNewFile} handleOpenFile={handleOpenFile} />} />
         </Routes>
       </Box>
-      {/* </CodeProvider> */}
     </>
   );
 }

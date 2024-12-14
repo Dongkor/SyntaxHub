@@ -14,7 +14,6 @@ import ShareSVG from "../../assets/share.svg"
 
 const Sidebar = ({ navSize, changeNavSize, onNewFile, onSave, onSaveAs, onOpenFile, isModified, code }) => {
 
-    // console.log(code)
     return (
         <Flex
             pos="sticky"
@@ -36,7 +35,6 @@ const Sidebar = ({ navSize, changeNavSize, onNewFile, onSave, onSaveAs, onOpenFi
                 <NavItem navSize={navSize} icon={OpenSVG} title="Open File" handleClick={onOpenFile} isModified={false} />
                 <NavItem navSize={navSize} icon={SaveSVG} title="Save" handleClick={onSave} isModified={!isModified} />
                 <NavItem navSize={navSize} icon={SaveAsSVG} title="Save As" handleClick={onSaveAs} isModified={!code} />
-                {/* <NavItem navSize={navSize} icon={ShareSVG} title="Share" /> */}
             </Flex>
             <Divider />
             <Flex w="100%" justifyContent={navSize === "small" ? "center" : "flex-end"} className='toggle-button' height={"5%"} alignItems={"center"}> {/* Changed justifyContent to "flex-end" */}
@@ -53,7 +51,6 @@ const Sidebar = ({ navSize, changeNavSize, onNewFile, onSave, onSaveAs, onOpenFi
                     <TbChevronRightPipe style={{ fontSize: "1.4rem", transform: navSize === "small" ? '' : 'scaleX(-1)', transition: 'transform 0.5s ease' }} />
                 </IconButton>
             </Flex>
-            {/* </Flex> */}
         </Flex>
     );
 }

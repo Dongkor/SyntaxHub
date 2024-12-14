@@ -127,7 +127,6 @@ const TestIDE = ({ Path, setPath, Code, setCode, originalCode, setOriginalCode, 
                 >
                     <Text color="#86A0A0" px={3} height="5%" className='terminal-header'>Terminal</Text>
                     <Box bg="#071821" className='terminal-box' w="100%" height="95%" borderRadius={12} >
-                        {/* <Terminal Path={Path} /> */}
                     </Box>
                 </div>
 

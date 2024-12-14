@@ -1,7 +1,5 @@
 import { React, useState, useEffect } from 'react'
 import { Box, Text, IconButton, HStack, ButtonGroup, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
-import { invoke } from '@tauri-apps/api/core';
-import { BsCursor } from "react-icons/bs";
 import CutSVG from "../assets/cut.svg";
 import CopySVG from "../assets/copy.svg"
 import PasteSVG from "../assets/paste.svg"
@@ -23,7 +21,6 @@ const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, code, clipBoa
             transform="translateX(-50%)" // Center the box horizontally
             height="70px"
             width="445px" // Width of the floating box
-            // py={0}
             minWidth="445px"
             px={2}
             borderRadius="15px" // Rounded corners
@@ -39,9 +36,6 @@ const Toolbar = ({ onUndo, onRedo, onCopy, onCut, onPaste, onFind, code, clipBoa
             borderColor="#BABABA"
         >
             <HStack>
-                {/* <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Cursor">
-                    <BsCursor size="2rem" style={{ transform: 'rotate(270deg)' }} />
-                </IconButton> */}
                 <IconButton size="lg" borderWidth="1px" borderColor="#BABABA" title="Cut" onClick={onCut} isDisabled={!isTextSelected}>
                     <img src={CutSVG} height="1rem" width="35rem" />
                 </IconButton>
